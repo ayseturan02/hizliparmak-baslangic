@@ -1,0 +1,2 @@
+import { NextResponse } from "next/server"; import { prisma } from "@/lib/prisma";
+export async function GET(){try{const results=await prisma.typingResult.findMany({where:{verified:true,user:{showOnLeaderboard:true}},orderBy:[{wpm:"desc"},{accuracy:"desc"},{createdAt:"asc"}],take:100,select:{wpm:true,accuracy:true,keyboardLayout:true,createdAt:true,user:{select:{username:true}}}});return NextResponse.json({results});}catch{return NextResponse.json({results:[],message:"Sıralama veritabanı hazır olduğunda gösterilecek."});}}

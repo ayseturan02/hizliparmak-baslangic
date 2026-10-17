@@ -1,0 +1,2 @@
+import { NextResponse } from "next/server"; import { prisma } from "@/lib/prisma";
+export async function GET(){try{const lessons=await prisma.lesson.findMany({where:{isPublished:true},orderBy:{levelNumber:"asc"},select:{id:true,levelNumber:true,slug:true,title:true,description:true,section:true,difficulty:true,isPremium:true,passAccuracy:true,minWpm:true}});return NextResponse.json({lessons});}catch{return NextResponse.json({error:"Dersler alınamadı. Önce veritabanını kurup seed komutunu çalıştır."},{status:503});}}

@@ -1,0 +1,320 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               String             @id @default(cuid())
+  email            String             @unique
+  username         String             @unique
+  name             String?
+  province         String?
+  targetProvince   String?
+  examType         String?
+  provinceMatchVisible Boolean @default(false)
+  passwordHash     String
+  role             UserRole           @default(USER)
+  keyboardLayout   KeyboardLayout     @default(TR)
+  profilePublic    Boolean            @default(true)
+  showOnLeaderboard Boolean           @default(true)
+  emailVerifiedAt  DateTime?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  progress         LessonProgress[]
+  results          TypingResult[]
+  orders           Order[]
+  subscriptions    Subscription[]
+  achievements     UserAchievement[]
+  dailyActivity    DailyActivity[]
+  friendshipsSent  Friendship[]       @relation("FriendshipRequester")
+  friendshipsReceived Friendship[]     @relation("FriendshipAddressee")
+  raceParticipants RaceParticipant[]
+  contestEntries   WeeklyContestEntry[]
+
+  @@index([createdAt])
+}
+
+model Lesson {
+  id             String           @id @default(cuid())
+  levelNumber    Int              @unique
+  slug           String           @unique
+  title          String
+  description    String
+  content        String           @db.Text
+  section        Int
+  difficulty     Difficulty       @default(BEGINNER)
+  isPremium      Boolean          @default(false)
+  passAccuracy  Int              @default(95)
+  minWpm         Int              @default(0)
+  isPublished    Boolean          @default(true)
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  progress       LessonProgress[]
+  results        TypingResult[]
+
+  @@index([section, levelNumber])
+  @@index([isPublished, isPremium])
+}
+
+model LessonProgress {
+  id             String   @id @default(cuid())
+  userId         String
+  lessonId       String
+  completed      Boolean  @default(false)
+  attempts       Int      @default(0)
+  bestWpm        Float    @default(0)
+  bestAccuracy   Float    @default(0)
+  completedAt    DateTime?
+  lastAttemptAt  DateTime?
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson         Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, lessonId])
+  @@index([userId, completed])
+}
+
+model TypingResult {
+  id              String   @id @default(cuid())
+  userId          String?
+  lessonId        String?
+  textId          String?
+  keyboardLayout  KeyboardLayout
+  wpm             Float
+  accuracy        Float
+  correctChars    Int
+  incorrectChars  Int
+  durationSeconds Int
+  verified        Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  user            User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  lesson          Lesson?  @relation(fields: [lessonId], references: [id], onDelete: SetNull)
+
+  @@index([createdAt])
+  @@index([userId, createdAt])
+  @@index([verified, wpm])
+}
+
+model Plan {
+  id             String         @id @default(cuid())
+  code           String         @unique
+  name           String
+  description    String
+  amountMinor    Int
+  currency       String         @default("TRY")
+  interval       PlanInterval
+  active         Boolean        @default(true)
+  subscriptions  Subscription[]
+  createdAt      DateTime       @default(now())
+}
+
+model Order {
+  id                String      @id @default(cuid())
+  userId            String
+  amountMinor       Int
+  currency          String      @default("TRY")
+  status            OrderStatus @default(PENDING)
+  provider          String?
+  providerReference String?     @unique
+  idempotencyKey    String      @unique
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  user              User        @relation(fields: [userId], references: [id], onDelete: Restrict)
+
+  @@index([userId, createdAt])
+}
+
+model Subscription {
+  id                  String             @id @default(cuid())
+  userId              String
+  planId              String
+  status              SubscriptionStatus @default(INACTIVE)
+  provider            String?
+  providerReference   String?            @unique
+  currentPeriodStart  DateTime?
+  currentPeriodEnd    DateTime?
+  cancelAtPeriodEnd   Boolean            @default(false)
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+  user                User               @relation(fields: [userId], references: [id], onDelete: Restrict)
+  plan                Plan               @relation(fields: [planId], references: [id], onDelete: Restrict)
+
+  @@index([userId, status])
+}
+
+model PaymentEvent {
+  id                String   @id @default(cuid())
+  provider          String
+  providerEventId   String
+  eventType         String
+  processedAt       DateTime?
+  createdAt         DateTime @default(now())
+
+  @@unique([provider, providerEventId])
+}
+
+model Friendship {
+  id            String           @id @default(cuid())
+  requesterId   String
+  addresseeId   String
+  status        FriendshipStatus @default(PENDING)
+  createdAt     DateTime         @default(now())
+  requester     User             @relation("FriendshipRequester", fields: [requesterId], references: [id], onDelete: Cascade)
+  addressee     User             @relation("FriendshipAddressee", fields: [addresseeId], references: [id], onDelete: Cascade)
+
+  @@unique([requesterId, addresseeId])
+  @@index([addresseeId, status])
+}
+
+model Achievement {
+  id          String            @id @default(cuid())
+  code        String            @unique
+  title       String
+  description String
+  icon        String            @default("star")
+  users       UserAchievement[]
+}
+
+model UserAchievement {
+  id            String      @id @default(cuid())
+  userId        String
+  achievementId String
+  earnedAt      DateTime    @default(now())
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  achievement   Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, achievementId])
+}
+
+model DailyActivity {
+  id              String   @id @default(cuid())
+  userId          String
+  activityDate    DateTime @db.Date
+  practiceSeconds Int      @default(0)
+  testsCompleted  Int      @default(0)
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, activityDate])
+  @@index([activityDate])
+}
+
+model Race {
+  id          String           @id @default(cuid())
+  status      RaceStatus       @default(WAITING)
+  textContent String           @db.Text
+  startsAt    DateTime?
+  endsAt      DateTime?
+  createdAt   DateTime         @default(now())
+  participants RaceParticipant[]
+}
+
+model RaceParticipant {
+  id          String   @id @default(cuid())
+  raceId      String
+  userId      String
+  finalWpm    Float?
+  accuracy    Float?
+  finishedAt  DateTime?
+  race        Race     @relation(fields: [raceId], references: [id], onDelete: Cascade)
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([raceId, userId])
+  @@index([raceId, finalWpm])
+}
+
+model SiteSetting {
+  key        String   @id
+  value      String   @db.Text
+  updatedAt  DateTime @updatedAt
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+enum KeyboardLayout {
+  TR
+  F
+}
+enum Difficulty {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+  EXAM
+}
+enum PlanInterval {
+  MONTH
+  YEAR
+  ONE_TIME
+}
+enum OrderStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+  CANCELLED
+}
+enum SubscriptionStatus {
+  INACTIVE
+  ACTIVE
+  PAST_DUE
+  CANCELLED
+  EXPIRED
+}
+enum FriendshipStatus {
+  PENDING
+  ACCEPTED
+  BLOCKED
+}
+enum RaceStatus {
+  WAITING
+  COUNTDOWN
+  RUNNING
+  FINISHED
+  CANCELLED
+}
+
+model Announcement {
+  id          String   @id @default(cuid())
+  title       String
+  summary     String   @db.Text
+  category    String   @default("DUYURU")
+  published   Boolean  @default(true)
+  pinned      Boolean  @default(false)
+  publishedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+
+  @@index([published, publishedAt])
+}
+
+model WeeklyContest {
+  id          String   @id @default(cuid())
+  title       String
+  description String   @db.Text
+  textContent String   @db.Text
+  startsAt    DateTime @unique
+  endsAt      DateTime
+  status      String   @default("UPCOMING")
+  createdAt   DateTime @default(now())
+  entries     WeeklyContestEntry[]
+
+  @@index([status, startsAt])
+}
+
+model WeeklyContestEntry {
+  id         String   @id @default(cuid())
+  contestId  String
+  userId     String
+  wpm        Float?
+  accuracy   Float?
+  submittedAt DateTime?
+  createdAt  DateTime @default(now())
+  contest    WeeklyContest @relation(fields: [contestId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([contestId, userId])
+  @@index([contestId, wpm])
+}

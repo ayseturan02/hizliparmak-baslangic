@@ -1,0 +1,2 @@
+import Link from "next/link";
+export default function SiteFooter() { return <footer className="site-footer"><span>© {new Date().getFullYear()} HızlıParmak</span><div><Link href="/kullanim-kosullari">Kullanım koşulları</Link><Link href="/gizlilik-politikasi">Gizlilik</Link><Link href="/duyurular">Duyurular</Link><Link href="/haftalik-yaris">Haftalık sınav</Link><Link href="/iletisim">İletişim</Link></div></footer>; }
