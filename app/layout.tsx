@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import "./globals.css";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
@@ -11,19 +10,23 @@ export const metadata: Metadata = {
     template: "%s | HızlıParmak",
   },
   description: "On parmak yazmayı öğren, hızını ölç ve gelişimini takip et.",
+  other: {
+    "google-adsense-account": "ca-pub-6823236945712938",
+  },
 };
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="tr">
-      <Script
-        id="google-adsense"
-        strategy="beforeInteractive"
-        async
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6823236945712938"
-        crossOrigin="anonymous"
-      />
+      <head>
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6823236945712938"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body>
         <div className="ambient-light ambient-light-one" aria-hidden="true" />
         <div className="ambient-light ambient-light-two" aria-hidden="true" />
