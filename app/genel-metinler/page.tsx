@@ -1,0 +1,7 @@
+import Link from "next/link";
+import type { Metadata } from "next";
+import PageShell from "@/components/PageShell";
+import AdSlot from "@/components/AdSlot";
+import { practiceTexts } from "@/lib/practice-texts";
+export const metadata: Metadata = { title: "Genel metinler" };
+export default function GeneralTextsPage(){const texts=practiceTexts.filter(t=>!t.id.startsWith("gecmis-"));return <PageShell title="Genel metin kütüphanesi" description="Günlük pratik için teknoloji, kamu hizmeti, resmî yazışma ve kişisel gelişim metinleri."><div className="library-intro panel"><div><div className="eyebrow">HER GÜN 10 DAKİKA</div><h2>Doğru yaz, ritmini bul, hızını artır.</h2><p className="muted">Metinler pratik amacıyla hazırlanmış özgün içeriklerdir. Kolaydan zora ilerle ve her denemede doğruluk oranını takip et.</p></div><Link className="button button-primary" href="/yarislar">Süreli yarışa geç ↗</Link></div><AdSlot placement="content"/><div className="text-library-grid">{texts.map((t,i)=><article className="card text-library-card" key={t.id}><div className="text-card-top"><span className="pill">{t.category}</span><span className={`difficulty difficulty-${t.difficulty.toLowerCase()}`}>{t.difficulty}</span></div><h2>{t.title}</h2><p>{t.text}</p><div className="text-card-bottom"><span>{t.text.split(/\s+/).length} kelime</span><Link href={`/test?text=${t.id}`} className="text-link">Bu metni çalış ↗</Link></div></article>)}</div></PageShell>}

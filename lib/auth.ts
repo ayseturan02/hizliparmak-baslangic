@@ -24,6 +24,6 @@ export async function getSessionUser() {
     if (!token) return null;
     const { payload } = await jwtVerify(token, secret());
     if (typeof payload.sub !== "string") return null;
-    return await prisma.user.findUnique({ where: { id: payload.sub }, select: { id: true, email: true, username: true, name: true, role: true, keyboardLayout: true, profilePublic: true, showOnLeaderboard: true, province: true, targetProvince: true, examType: true, provinceMatchVisible: true, createdAt: true } });
+    return await prisma.user.findUnique({ where: { id: payload.sub }, select: { id: true, email: true, username: true, name: true, role: true, keyboardLayout: true, profilePublic: true, showOnLeaderboard: true, province: true, targetProvince: true, examType: true, examScore: true, provinceMatchVisible: true, createdAt: true } });
   } catch { return null; }
 }

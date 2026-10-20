@@ -6,6 +6,10 @@ import { useState } from "react";
 const links = [
   ["Akademi", "/ogren"],
   ["Hız testi", "/test"],
+  ["3 ve 5 dk yarışlar", "/yarislar"],
+  ["Genel metinler", "/genel-metinler"],
+  ["Geçmiş sınav metinleri", "/gecmis-sinavlar"],
+  ["Aday sohbeti", "/sohbet"],
   ["Haftalık sınav", "/haftalik-yaris"],
   ["Sıralama", "/liderlik"],
   ["Duyurular", "/duyurular"],
