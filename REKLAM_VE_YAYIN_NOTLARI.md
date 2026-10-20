@@ -1,8 +1,7 @@
-# HızlıParmak güncellemesi
-- Üst, alt, footer ve geniş ekranda iki yan reklam yer tutucusu eklendi. Bunlar gerçek reklam DEĞİLDİR. AdSense onayı sonrası yayın kodu ayrıca bağlanmalıdır.
-- Premium abonelikte reklam yer tutucuları gizlenir.
-- Giriş ve kayıt ekranlarında şifre göster/gizle düğmesi eklendi.
-- 100 seviye için farklı ve giderek uzayan özgün çalışma metni üretimi eklendi. ÖNEMLİ: Mevcut veritabanındaki dersleri otomatik güncellemez; seed kodu yeni ders oluşturulurken kullanılır. Mevcut dersler için ayrı veri güncelleme planı gerekir.
-- Sohbet: Enter ile gönderme, Shift+Enter ile satır, @ kullanıcı önerisi ve alıntılı yanıt (mesaj gövdesinde alıntı) eklendi. Kalıcı reply ilişkisi için ileride şema değişikliği önerilir.
-- Yayına almadan önce: npm ci, npx prisma generate, npx tsc --noEmit, npm run build ve uçtan uca testler yapılmalıdır. Bu ortamda bağımlılık kurulumu zaman aşımına uğradığından derleme doğrulanamadı.
-- Reklamları giriş/kayıt ve yoğun etkileşim alanlarında göstermenin AdSense politikaları ve kullanıcı deneyimi bakımından uygunluğunu yayın öncesi değerlendirin.
+# Reklam ve sohbet güncellemesi
+
+- Sayfaları kaplayan üst/yan/alt/footer reklam kutuları kaldırıldı.
+- Gerçek reklamlar henüz etkin değil: AdSlot, AdSense istemci/birim kimlikleri yoksa **hiçbir boş kutu çizmez**. Sadece ortam değişkeni tanımlamak da reklam yayını başlatmaz; AdSense onayı ve politika uyumlu reklam birimi entegrasyonu ayrıca yapılmalıdır.
+- Sohbet gönderiminden sonra `scrollIntoView()` kaldırıldı. Artık kaydırma yalnızca sohbet mesajlarının kendi panelinde yapılır; kullanıcı eski mesajları okuyorsa 7 saniyelik yenileme onu aşağı çekmez.
+- `npm install`, `npm run build` ve yerel/girişli sohbet işlev testlerini çalıştırın.
+- .env dosyanızı ZIP'e eklemeyin.
