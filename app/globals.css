@@ -42,3 +42,34 @@ html.has-glow-cursor .cursor-orb{opacity:1;transform:scale(1)}
 /* Full-width pages without intrusive global ad columns. */
 .site-content{min-width:0;width:100%}
 .chat-messages{overflow-y:auto;overscroll-behavior:contain;scroll-behavior:auto}
+
+/* HızlıParmak yeni logo */
+
+.brand-image {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+.header-logo {
+  display: block;
+  width: 260px;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Tablet ve telefon */
+@media (max-width: 768px) {
+  .header-logo {
+    width: 170px;
+  }
+}
+
+@media (max-width: 420px) {
+  .header-logo {
+    width: 145px;
+  }
+}
+
