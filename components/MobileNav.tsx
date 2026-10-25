@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 
 const links = [
+  ["Soru Cevap", "/soru-cevap"],
   ["Akademi", "/ogren"],
   ["Hız testi", "/test"],
   ["3 ve 5 dk yarışlar", "/yarislar"],

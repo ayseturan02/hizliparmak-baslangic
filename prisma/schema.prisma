@@ -36,6 +36,8 @@ model User {
   raceParticipants RaceParticipant[]
   contestEntries   WeeklyContestEntry[]
   chatMessages     ChatMessage[]
+  questions        Question[]
+  answers          Answer[]
 
   @@index([createdAt])
 }
@@ -331,4 +333,26 @@ model ChatMessage {
 
   @@index([createdAt])
   @@index([userId, createdAt])
+}
+
+model Question {
+  id        String   @id @default(cuid())
+  userId    String
+  title     String   @db.VarChar(160)
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  answers   Answer[]
+  @@index([createdAt, id])
+}
+
+model Answer {
+  id         String   @id @default(cuid())
+  questionId String
+  userId     String
+  content    String   @db.Text
+  createdAt  DateTime @default(now())
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@index([questionId, createdAt, id])
 }

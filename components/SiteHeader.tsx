@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getSessionUser } from "@/lib/auth";
 import MobileNav from "@/components/MobileNav";
 import Image from "next/image";
+import ThemeSwitcher from "@/components/ThemeSwitcher";
 export default async function SiteHeader() {
   const user = await getSessionUser();
   return (
@@ -27,11 +28,13 @@ export default async function SiteHeader() {
           <Link href="/test">Hız testi</Link>
           <Link href="/yarislar">3/5 dk yarış</Link>
           <Link href="/genel-metinler">Metinler</Link>
+          <Link href="/soru-cevap">Soru Cevap</Link>
           <Link href="/sohbet">Sohbet</Link>
           <Link href="/liderlik">Sıralama</Link>
           <Link href="/duyurular">Duyurular</Link>
         </nav>
         <div className="header-actions">
+          <ThemeSwitcher />
           {user ? (
             <>
               <Link

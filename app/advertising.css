@@ -1,0 +1,52 @@
+/* Ads use spare gutters; the existing central content keeps its width. */
+.advertising-frame { max-width:1600px; margin:0 auto; }
+.advertising-main { min-width:0; }
+.advertising-rail { display:none; }
+.advertising-banner { width:min(970px,calc(100% - 40px)); margin:24px auto; }
+.ad-slot { display:block; position:relative; width:100%; max-width:100%; margin:24px auto; padding:12px 16px 16px; border:1px solid var(--line); border-radius:14px; background:color-mix(in srgb,var(--panel) 85%,transparent); overflow:hidden; text-align:left; }
+.ad-label { display:block; margin-bottom:12px; text-align:left; color:var(--muted); font-size:8px; line-height:1; font-weight:500; letter-spacing:1.8px; }
+.house-promotion { display:flex; gap:18px; align-items:center; min-height:84px; }
+.house-ad-icon { flex-shrink:0; display:grid; place-items:center; width:48px; height:48px; border:1px solid var(--selection); border-radius:12px; color:var(--accent); background:var(--accent-soft); font-size:25px; }
+.house-ad-copy { min-width:0; flex:1; }
+.house-ad-brand { display:block; font-size:8px; color:var(--muted); letter-spacing:1px; margin-bottom:7px; }
+.house-ad-copy strong { display:block; color:var(--text); font-size:17px; line-height:1.4; font-weight:600; letter-spacing:-.3px; }
+.house-ad-copy p { color:var(--muted); font-size:11px; line-height:1.7; margin:7px 0 0; }
+.house-ad-link { display:inline-flex; align-items:center; justify-content:space-between; gap:14px; flex-shrink:0; border:1px solid var(--line); background:var(--accent-soft); color:var(--accent); padding:11px 14px; border-radius:9px; font-size:11px; white-space:nowrap; }
+.house-ad-link:hover { border-color:var(--accent); }
+.house-ad-link:focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
+.ad-slot .adsbygoogle { width:100%; min-height:100px; }
+.ad-slot-side .adsbygoogle { min-height:280px; }
+@media (min-width:1600px) {
+ .advertising-frame { width:calc(100% - 32px); display:grid; grid-template-columns:160px minmax(0,1fr) 160px; gap:24px; align-items:start; }
+ .advertising-rail { display:grid; gap:32px; padding-top:24px; }
+ .advertising-rail .ad-slot { margin:0; }
+ .ad-slot-side { min-height:300px; padding:13px; }
+ .ad-slot-side .house-promotion { flex-direction:column; align-items:flex-start; gap:18px; padding-top:16px; }
+ .ad-slot-side .house-ad-copy strong { font-size:19px; }
+ .ad-slot-side .house-ad-copy p { font-size:11px; }
+ .ad-slot-side .house-ad-link { width:100%; white-space:normal; padding:10px; font-size:10px; gap:6px; margin-top:10px; }
+ .ad-slot-side .house-ad-brand { font-size:7px; }
+}
+@media (max-width:600px) {
+ .advertising-banner { margin:20px auto; }
+ .ad-slot { padding:11px 13px 14px; margin:22px auto; }
+ .house-promotion { gap:13px; flex-wrap:wrap; }
+ .house-ad-icon { width:35px; height:35px; font-size:20px; }
+ .house-ad-copy { flex-basis:calc(100% - 55px); }
+ .house-ad-copy strong { font-size:15px; }
+ .house-ad-copy p { font-size:10px; }
+ .house-ad-link { margin-left:48px; padding:9px 11px; font-size:10px; }
+ .ad-slot .adsbygoogle { min-height:100px; }
+}
+
+@media (min-width:1440px) and (max-width:1599px) {
+ .advertising-frame { width:calc(100% - 24px); display:grid; grid-template-columns:110px minmax(0,1fr) 110px; gap:16px; align-items:start; }
+ .advertising-rail { display:grid; gap:32px; padding-top:24px; }
+ .advertising-rail .ad-slot { margin:0; }
+ .ad-slot-side { min-height:300px; padding:10px; }
+ .ad-slot-side .house-promotion { flex-direction:column; align-items:flex-start; gap:16px; padding-top:10px; }
+ .ad-slot-side .house-ad-copy strong { font-size:16px; overflow-wrap:anywhere; }
+ .ad-slot-side .house-ad-copy p { font-size:10px; }
+ .ad-slot-side .house-ad-brand { font-size:7px; }
+ .ad-slot-side .house-ad-link { width:100%; white-space:normal; font-size:9px; padding:9px 7px; gap:4px; overflow-wrap:anywhere; }
+}
