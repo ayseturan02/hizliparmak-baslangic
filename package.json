@@ -19,7 +19,8 @@
     "check:launch": "tsx scripts/check-launch-guards.mts",
     "build:production": "npm run check:production && npm run build",
     "check:account": "tsx scripts/check-account-flow.mts",
-    "db:backup": "tsx scripts/backup-database.mts"
+    "db:backup": "tsx scripts/backup-database.mts",
+    "check:new-flows": "tsx scripts/check-new-flows.mts"
   },
   "dependencies": {
     "@prisma/client": "^6.16.2",

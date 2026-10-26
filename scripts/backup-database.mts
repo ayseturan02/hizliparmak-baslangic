@@ -7,14 +7,13 @@ import assert from "node:assert/strict";
 import { PrismaClient, Prisma } from "@prisma/client";
 const arg = (name: string) => { const i=process.argv.indexOf(name); return i < 0 ? undefined : process.argv[i+1]; };
 const sourceFile=arg("--source-env"), keyFile=arg("--key-file");
-if(!sourceFile || !keyFile) throw new Error("Required: --source-env <ignored env file> --key-file <private base64 key file>. Optional: --verify-local");
-const source=parseEnv(readFileSync(sourceFile,"utf8"));
+const source=sourceFile ? parseEnv(readFileSync(sourceFile,"utf8")) : process.env;
 const sourceUrl=source.DATABASE_URL_UNPOOLED || source.DATABASE_URL;
 if(!sourceUrl) throw new Error("Source DATABASE_URL is missing.");
-const key=Buffer.from(readFileSync(keyFile,"utf8").trim(),"base64");
+const key=Buffer.from(keyFile ? readFileSync(keyFile,"utf8").trim() : process.env.BACKUP_ENCRYPTION_KEY || "", "base64");
 if(key.length!==32) throw new Error("Backup encryption key must decode to 32 bytes.");
 // Parent records must precede their dependents when restoring.
-const order=["User","Lesson","Plan","Achievement","Race","SiteSetting","Announcement","WeeklyContest","PaymentEvent","Order","Subscription","LessonProgress","TypingResult","Friendship","UserAchievement","DailyActivity","RaceParticipant","WeeklyContestEntry","ChatMessage","Question","Answer"];
+const order=["User","AuthToken","UserBlock","ContentReport","RaceAttempt","Lesson","Plan","Achievement","Race","SiteSetting","Announcement","WeeklyContest","PaymentEvent","Order","Subscription","LessonProgress","TypingResult","Friendship","UserAchievement","DailyActivity","RaceParticipant","WeeklyContestEntry","ChatMessage","Question","Answer"];
 assert.deepEqual([...order].sort(),Prisma.dmmf.datamodel.models.map(m=>m.name).sort(),"Update the backup dependency order when adding Prisma models");
 const delegate=(name: string)=>name[0].toLowerCase()+name.slice(1);
 const schema=readFileSync("prisma/schema.prisma","utf8");
@@ -22,7 +21,11 @@ const sourceDb=new PrismaClient({datasources:{db:{url:sourceUrl}}});
 try {
   const records: Record<string,Record<string,unknown>[]> = await sourceDb.$transaction(async tx=>{
     const rows: Record<string,Record<string,unknown>[]>={};
-    for(const name of order) rows[name]=await (tx as any)[delegate(name)].findMany();
+    const tables = await tx.$queryRaw<{ tablename: string }[]>`SELECT tablename FROM pg_tables WHERE schemaname = current_schema()`;
+    const existing = new Set(tables.map(t => t.tablename));
+    // A pre-migration snapshot must also work while optional new tables/columns do not exist yet.
+    // Table names come exclusively from the fixed, model-validated dependency order above.
+    for(const name of order) rows[name] = existing.has(name) ? await tx.$queryRawUnsafe<Record<string,unknown>[]>('SELECT * FROM "' + name + '"') : [];
     return rows;
   },{isolationLevel:Prisma.TransactionIsolationLevel.RepeatableRead,maxWait:10000,timeout:120000});
   const plain=JSON.stringify({format:"hp-data-v1",createdAt:new Date().toISOString(),schema,records});

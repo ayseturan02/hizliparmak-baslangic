@@ -1,12 +1,17 @@
+import { blockedUserIds } from "@/lib/moderation";
+import { isSameOriginJson } from "@/lib/request-security";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getSessionUser } from "@/lib/auth";
 import { questionInput, authorSelect } from "@/lib/questions";
 export const dynamic = "force-dynamic";
 export async function GET(request: Request) {
+  const viewer = await getSessionUser();
+  const excluded = await blockedUserIds(viewer?.id);
   const cursor = new URL(request.url).searchParams.get("cursor");
   try {
     const rows = await prisma.question.findMany({
+      where: { userId: { notIn: excluded }, user: { isSuspended: false } },
       orderBy: [{ createdAt: "desc" }, { id: "desc" }], take: 21,
       ...(cursor ? { cursor: { id: cursor }, skip: 1 } : {}),
       select: { id: true, title: true, content: true, createdAt: true, user: { select: authorSelect }, _count: { select: { answers: true } } }
@@ -15,8 +20,10 @@ export async function GET(request: Request) {
   } catch { return NextResponse.json({ error: "Sorular yüklenemedi. Lütfen tekrar dene." }, { status: 503 }); }
 }
 export async function POST(request: Request) {
+  if (!isSameOriginJson(request)) return NextResponse.json({ error: "Geçersiz kaynak." }, { status: 403 });
   const user = await getSessionUser();
   if (!user) return NextResponse.json({ error: "Soru sormak için giriş yapmalısın." }, { status: 401 });
+  if (user.isSuspended) return NextResponse.json({ error: "Topluluk erişimin askıya alınmış." }, { status: 403 });
   let body; try { body = await request.json(); } catch { return NextResponse.json({ error: "Geçersiz istek." }, { status: 400 }); }
   const parsed = questionInput.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: "Başlık 5–160, soru 10–5000 karakter arasında olmalı." }, { status: 400 });

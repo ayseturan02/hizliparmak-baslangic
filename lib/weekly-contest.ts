@@ -5,7 +5,7 @@ export async function ensureCurrentWeeklyContest() {
   const existing = await prisma.weeklyContest.findUnique({ where: { startsAt } });
   if (existing) return existing;
   try {
-    return await prisma.weeklyContest.create({ data: { title: "Haftalık Hız Sınavı · " + titleDate, description: "Bu haftanın ortak metnini yaz, hız ve doğruluğunu ölç. Sonuçlar geliştirme aşamasındadır ve ilk sürümde istemci zamanına dayalıdır.", textContent: "Düzenli pratik, doğru parmak tekniği ve dikkatli tekrar yazma performansını geliştirir. Hız kadar doğruluk da önemlidir. Her gün kısa süre çalışmak uzun aralar vermekten daha verimlidir.", startsAt, endsAt, status: "ACTIVE" } });
+    return await prisma.weeklyContest.create({ data: { title: "Haftalık Hız Sınavı · " + titleDate, description: "Bu haftanın ortak metnini yaz, hız ve doğruluğunu ölç. Sunucu zamanıyla hesaplanan sonuçlar otomatik yazma araçlarına karşı tamamen doğrulanmış değildir.", textContent: "Düzenli pratik, doğru parmak tekniği ve tekrar yazma performansını geliştirir. Hız kadar doğruluk da önemlidir. Her gün kısa süre çalışmak uzun aralar vermekten daha verimlidir.", startsAt, endsAt, status: "ACTIVE" } });
   } catch (error) {
     const existing = await prisma.weeklyContest.findUnique({ where: { startsAt } });
     if (existing) return existing;
