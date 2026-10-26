@@ -1,3 +1,4 @@
+import { paymentsEnabled } from "@/lib/payments";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import PageShell from "@/components/PageShell";
@@ -6,6 +7,7 @@ import { getSessionUser } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 export default async function PaymentPage({ searchParams }: { searchParams: Promise<{ plan?: string }> }) {
+  if (!paymentsEnabled()) return <PageShell title="Premium üyelik" description="Premium satın alma henüz açılmadı."><div className="panel"><p>Ücretsiz dersler ve hız testleriyle çalışmaya devam edebilirsin.</p><Link className="button button-primary" href="/ogren">Derslere geç</Link></div></PageShell>;
   const user = await getSessionUser();
   if (!user) redirect("/giris?next=/odeme");
   const params = await searchParams;

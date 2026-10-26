@@ -11,7 +11,15 @@
     "db:migrate": "prisma migrate dev",
     "db:push": "prisma db push",
     "db:seed": "tsx prisma/seed.ts",
-    "db:studio": "prisma studio"
+    "db:studio": "prisma studio",
+    "check:env": "tsx scripts/check-runtime-env.mts",
+    "db:deploy": "prisma migrate deploy",
+    "db:update-lessons": "tsx scripts/update-lessons.mts",
+    "check:production": "tsx scripts/check-runtime-env.mts --production",
+    "check:launch": "tsx scripts/check-launch-guards.mts",
+    "build:production": "npm run check:production && npm run build",
+    "check:account": "tsx scripts/check-account-flow.mts",
+    "db:backup": "tsx scripts/backup-database.mts"
   },
   "dependencies": {
     "@prisma/client": "^6.16.2",

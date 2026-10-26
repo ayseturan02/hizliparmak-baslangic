@@ -1,3 +1,9 @@
-"use client";
-import { useState } from "react"; import PageShell from "@/components/PageShell";
-export default function KeyboardPage(){const [layout,setLayout]=useState("TR");return <PageShell title="Klavye düzeni" description="Çalışma tercihini seç. İlk sürümde bu seçim tarayıcıda geçici olarak tutulur; hesap ayarlarına kaydetme sonraki adımda bağlanacak."><div className="grid-3">{[{id:"TR",title:"Türkçe Q",desc:"Türkiye'de yaygın kullanılan Q düzeni."},{id:"F",title:"Türkçe F",desc:"Türkçe yazım için tasarlanmış F düzeni."}].map(x=><button key={x.id} onClick={()=>setLayout(x.id)} className="card" style={{textAlign:"left",cursor:"pointer",borderColor:layout===x.id?"var(--accent)":"var(--line)",color:"var(--text)"}}><span className="pill">{layout===x.id?"Seçili":"Seç"}</span><h2>{x.title}</h2><p>{x.desc}</p></button>)}</div><div className="panel"><h2>Seçimin: {layout==="F"?"Türkçe F":"Türkçe Q"}</h2><p className="muted">Klavye düzeni, derslerde gösterilecek tuş rehberini belirlemelidir.</p></div></PageShell>}
+import { redirect } from "next/navigation";
+import PageShell from "@/components/PageShell";
+import AccountPreferences from "@/components/AccountPreferences";
+import { getSessionUser } from "@/lib/auth";
+export default async function KeyboardPage() {
+  const user = await getSessionUser();
+  if (!user) redirect("/giris?next=/klavye");
+  return <PageShell title="Klavye düzeni" description="Tercihini hesabına kaydet; her girişinde aynı düzenle çalış."><AccountPreferences initial={{ keyboardLayout: user.keyboardLayout, profilePublic: user.profilePublic, showOnLeaderboard: user.showOnLeaderboard }} section="keyboard"/></PageShell>;
+}

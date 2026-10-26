@@ -1,2 +1,9 @@
-import { redirect } from "next/navigation"; import PageShell from "@/components/PageShell"; import { getSessionUser } from "@/lib/auth";
-export default async function PrivacySettingsPage(){const user=await getSessionUser();if(!user)redirect("/giris?next=/gizlilik");return <PageShell title="Gizlilik ayarları" description="Profil görünürlüğü ve sıralama tercihlerinin yönetimi."><div className="panel"><p>Profil görünürlüğü: <strong>{user.profilePublic?"Herkese açık":"Gizli"}</strong></p><p>Sıralamada görünme: <strong>{user.showOnLeaderboard?"Açık":"Kapalı"}</strong></p><div className="notice-box">Bu ayarların veritabanına kaydedilmesini sağlayan form henüz bağlanmadı. Bu sayfa mevcut kayıtlı tercihlerini gösterir.</div></div></PageShell>}
+import { redirect } from "next/navigation";
+import PageShell from "@/components/PageShell";
+import AccountPreferences from "@/components/AccountPreferences";
+import { getSessionUser } from "@/lib/auth";
+export default async function PrivacySettingsPage() {
+  const user = await getSessionUser();
+  if (!user) redirect("/giris?next=/gizlilik");
+  return <PageShell title="Gizlilik ayarları" description="Profilinin ve sonuçlarının görünürlüğünü yönet."><AccountPreferences initial={{ keyboardLayout: user.keyboardLayout, profilePublic: user.profilePublic, showOnLeaderboard: user.showOnLeaderboard }} section="privacy"/></PageShell>;
+}

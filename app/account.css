@@ -1,0 +1,10 @@
+.account-preferences { max-width: 780px; }
+.account-preferences fieldset { border:0; padding:0; margin:0 0 24px; min-width:0; }
+.account-preferences legend { font-weight:700; margin-bottom:16px; }
+.preference-option { display:flex; align-items:flex-start; justify-content:flex-start; gap:16px; padding:18px; cursor:pointer; margin-bottom:12px; }
+.preference-option input { width:20px; height:20px; flex:0 0 20px; margin-top:2px; accent-color:var(--accent); }
+.preference-option span { display:block; color:var(--text); }
+.preference-option strong,.preference-option small { display:block; }
+.preference-option small { color:var(--muted); line-height:1.6; margin-top:5px; }
+.account-preferences > label { display:block; margin:18px 0 8px; }
+.account-preferences > button { margin-top:16px; }

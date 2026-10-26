@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
-import Script from "next/script";
+import { THEME_INIT_SCRIPT } from "@/lib/theme";
+import AdSenseLoader from "@/components/AdSenseLoader";
 import "./globals.css";
 import "./studio.css";
 import "./advertising.css";
+import "./learning.css";
+import "./account.css";
 import AdvertisingFrame from "@/components/AdvertisingFrame";
-import { adConfig, adsAllowed } from "@/lib/advertising";
+import { adConfig, adPublisher, adsAllowed } from "@/lib/advertising";
 
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
@@ -32,12 +35,12 @@ export default async function RootLayout({
   // Giriş yapmış kullanıcıyı kontrol et
   const user = await getSessionUser();
   const showAds = await adsAllowed();
-  const configuredAd = (["top", "side", "content", "bottom"] as const).map(adConfig).find(config => config.client && config.slot);
+  const publisher = adPublisher();
 
   return (
     <html lang="tr" suppressHydrationWarning>
       <head>
-        <script id="hp-theme-init" dangerouslySetInnerHTML={{ __html: `(function(){var t;try{t=localStorage.getItem("hp-theme")}catch(e){}document.documentElement.dataset.theme=["dark","light","midnight"].indexOf(t)>=0?t:window.matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"})()` }} />
+        <script id="hp-theme-init" dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
       </head>
 
       <body>
@@ -58,7 +61,7 @@ export default async function RootLayout({
 
         {/* Alt bölüm */}
         <SiteFooter />
-        {showAds && configuredAd && <Script id="hp-adsense" strategy="afterInteractive" src={"https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=" + configuredAd.client} crossOrigin="anonymous" />}
+        {showAds && <AdSenseLoader client={publisher}/>}
       </body>
     </html>
   );

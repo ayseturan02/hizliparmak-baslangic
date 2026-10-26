@@ -1,0 +1,8 @@
+"use client";
+import type { LessonLayout } from "@/lib/lessons";
+export default function KeyboardGuide({ next, focusKeys = "", layout = "TR" }: { next?: string; focusKeys?: string; layout?: LessonLayout }) {
+ const rows = layout === "F" ? ["1 2 3 4 5 6 7 8 9 0","f g ğ ı o d r n h p q w", "u i e a ü t k m l y ş x", "j ö v c ç z s b . ,"] : ["1 2 3 4 5 6 7 8 9 0", "q w e r t y u ı o p ğ ü", "a s d f g h j k l ş i", "z x c v b n m ö ç . ,"];
+ const key = next?.toLocaleLowerCase("tr-TR");
+ const shift = !!next && next !== key && next.toLocaleUpperCase("tr-TR") === next;
+ return <div className="lesson-keyboard" aria-label={layout === "F" ? "Türkçe F tuş rehberi" : "Türkçe Q tuş rehberi"}><div className="lesson-keyboard-caption"><span>{layout === "F" ? "TÜRKÇE F" : "TÜRKÇE Q"} · TUŞ REHBERİ</span><span>{next ? <>Sıradaki: {shift && "Shift + "}<kbd>{next === " " ? "Boşluk" : next}</kbd></> : "Alıştırma tamamlandı"}</span></div>{rows.map((row, index) => <div className="lesson-key-row" key={index}>{row.split(" ").map(letter => <span key={letter} className={"lesson-key" + (focusKeys.includes(letter) ? " is-learning" : "") + (key === letter ? " is-next" : "")} aria-current={key === letter ? "true" : undefined}>{letter.toLocaleUpperCase("tr-TR")}</span>)}</div>)}<div className="lesson-key-row"><span className={"lesson-key shift-key" + (shift ? " is-next" : "")}>Shift</span><span className={"lesson-key space-guide" + (key === " " ? " is-next" : "")}>BOŞLUK · BAŞPARMAK</span><span className="lesson-key shift-key">Shift</span></div><p>Vurgulanan tuşları çalış; her vuruştan sonra parmaklarını temel sıraya geri getir.</p></div>;
+}

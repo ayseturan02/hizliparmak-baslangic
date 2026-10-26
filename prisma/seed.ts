@@ -1,8 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 import { buildSeedLessons } from "../lib/lessons";
+import { currentContestWindow } from "../lib/contest-calendar";
 const prisma = new PrismaClient();
 async function main() {
-  for (const lesson of buildSeedLessons()) {
+  for (const { focusKeys, instruction, keyboardLayout, ...lesson } of buildSeedLessons()) {
     await prisma.lesson.upsert({ where: { levelNumber: lesson.levelNumber }, update: lesson as any, create: lesson as any });
   }
   const plans = [
@@ -27,10 +28,8 @@ async function main() {
     else await prisma.announcement.create({ data: item });
   }
   const now = new Date();
-  const start = new Date(now); start.setHours(0,0,0,0); start.setDate(start.getDate() - ((start.getDay() + 6) % 7));
-  const end = new Date(start); end.setDate(end.getDate() + 7); end.setMilliseconds(-1);
-  const startsAt = start > now ? start : new Date(start);
-  const contestTitle = `Haftalık Hız Sınavı · ${startsAt.toLocaleDateString("tr-TR")}`;
+  const { startsAt, endsAt: end, titleDate } = currentContestWindow(now);
+  const contestTitle = "Haftalık Hız Sınavı · " + titleDate;
   const contest = await prisma.weeklyContest.findFirst({ where: { startsAt } });
   const contestData = { title: contestTitle, description: "Bu haftanın ortak metnini yaz, hız ve doğruluğunu ölç. Sonuçlar geliştirme aşamasındadır ve ilk sürümde istemci zamanına dayalıdır.", textContent: "Düzenli pratik, doğru parmak tekniği ve dikkatli tekrar yazma performansını geliştirir. Hız kadar doğruluk da önemlidir. Her gün kısa süre çalışmak uzun aralar vermekten daha verimlidir.", startsAt, endsAt: end, status: now >= startsAt && now <= end ? "ACTIVE" : "UPCOMING" };
   if (contest) await prisma.weeklyContest.update({ where: { id: contest.id }, data: contestData });

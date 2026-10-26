@@ -8,8 +8,13 @@ export const adsAllowed = cache(async () => {
  const subscription = await prisma.subscription.findFirst({ where: { userId: user.id, status: "ACTIVE", currentPeriodEnd: { gt: new Date() } }, select: { id: true } }).catch(() => null);
  return !subscription;
 });
+export function adPublisher() {
+ const raw = process.env.NEXT_PUBLIC_ADSENSE_CLIENT || "ca-pub-6823236945712938";
+ const client = raw.startsWith("pub-") ? "ca-" + raw : raw;
+ return /^ca-pub-[0-9]{16}$/.test(client) ? client : "";
+}
 export function adConfig(placement: AdPlacement) {
- const client = process.env.NEXT_PUBLIC_ADSENSE_CLIENT || "";
+ const client = adPublisher();
  const slots: Record<AdPlacement, string | undefined> = { top: process.env.NEXT_PUBLIC_ADSENSE_SLOT_TOP, side: process.env.NEXT_PUBLIC_ADSENSE_SLOT_SIDE, content: process.env.NEXT_PUBLIC_ADSENSE_SLOT_CONTENT, bottom: process.env.NEXT_PUBLIC_ADSENSE_SLOT_BOTTOM, footer: process.env.NEXT_PUBLIC_ADSENSE_SLOT_BOTTOM };
  const slot = slots[placement] || process.env.NEXT_PUBLIC_ADSENSE_SLOT || "";
  const configured = /^ca-pub-[0-9]{16}$/.test(client) && /^[0-9]{10}$/.test(slot) && !/^(0+|1+|1234567890|0123456789)$/.test(slot);

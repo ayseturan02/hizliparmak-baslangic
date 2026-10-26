@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { paymentsEnabled } from "@/lib/payments";
 import { randomUUID } from "node:crypto";
 import { getSessionUser } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
@@ -9,6 +10,7 @@ type InitResponse = { status?: string; token?: string; paymentPageUrl?: string; 
 const clean = (value: unknown, max: number) => typeof value === "string" ? value.trim().slice(0, max) : "";
 
 export async function POST(request: Request) {
+  if (!paymentsEnabled()) return NextResponse.json({ error: "Premium satın alma şu anda kapalı." }, { status: 503 });
   const user = await getSessionUser();
   if (!user) return NextResponse.json({ error: "Ödeme için önce giriş yapmalısın." }, { status: 401 });
   if (!iyzicoConfigured()) return NextResponse.json({ error: "Ödeme sistemi henüz yapılandırılmadı. iyzico test anahtarları eklenmeli." }, { status: 503 });
