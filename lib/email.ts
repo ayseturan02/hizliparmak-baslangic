@@ -1,8 +1,7 @@
-import { randomUUID } from "node:crypto";
 export function emailConfigured() {
   return Boolean(process.env.RESEND_API_KEY && process.env.EMAIL_FROM && process.env.NEXT_PUBLIC_APP_URL);
 }
-export async function sendEmail(to: string, subject: string, text: string, key: string = randomUUID()) {
+export async function sendEmail(to: string, subject: string, text: string, key: string = crypto.randomUUID()) {
   if (!emailConfigured()) throw new Error("EMAIL_NOT_CONFIGURED");
   const response = await fetch("https://api.resend.com/emails", {
     method: "POST",
