@@ -24,9 +24,9 @@ Son kontrol: 26 Ekim 2026. Canlı adres: https://hizliparmak-baslangic.vercel.ap
 
 ## Yayımlanan sürüm
 
-Vercel production deployment: dpl_BPf9185YrCzg6rVDRvnGWXWH6tZw (READY).
+Vercel production deployment: dpl_7b5BikD8JBiYgFcwkayStWVLdNoB (READY).
 
-Son kod sürümü: 8e5297d (`fix: use Web Crypto in email instrumentation`). Özelliklerin kaynak kaydı: 3ffb236. Yerel geliştirme sunucusu http://localhost:3000 üzerinde yeniden başlatıldı; instrumentation derlemesi ve PostgreSQL/Redis sağlık kontrolü başarılı.
+Son kod sürümü: 7a9798a (`fix: load advertising independently of former cookie preference`). Özelliklerin kaynak kaydı: 3ffb236. Yerel geliştirme sunucusu http://localhost:3000 üzerinde yeniden başlatıldı; instrumentation derlemesi ve PostgreSQL/Redis sağlık kontrolü başarılı.
 
 ## Bulutta doğrulanan otomatik işler
 
@@ -71,3 +71,5 @@ Kurulum ayrıntıları, komutlar ve sınırlar: [EMAIL_VE_IZLEME_KURULUMU.md](EM
 Google reklam kodunun yüklenmesini önceki “Yalnızca gerekli” tercihiyle durduran koşul kaldırıldı. Bilgilendirmeyi kapatmak reklam izni olarak yorumlanmaz. Yönetim, ödeme, giriş/kayıt ve parola işlemleri sayfalarının reklam hariç tutmaları ile reklamsız aktif abonelik davranışı korunur. Manuel sağ/sol reklam birimi kimliği canlı ortamda hâlâ eksiktir; Auto ads yerleşim ve reklam gösterimini Google belirler. Google hesap onayı ve bölgeye göre izin yönetimi gereksinimleri hâlâ doğrulanmalıdır.
 
 Tarayıcı doğrulaması: eski ads:false kaydı varken reklam betiği yükleniyor; eski tercih temizleniyor; bilgilendirmeyi kapatmak reklamları durdurmuyor. Giriş sayfasında reklam betiği yüklenmiyor.
+
+Son reklam güncellemesi Vercel READY durumunda canlıya yayımlandı. Canlı Chrome testi, eski gerekli-çerez tercihi varken reklam kodunun otomatik yüklendiğini ve bilgi ekranını kapatmanın reklamı durdurmadığını doğruladı. Gerçek reklam ağ çağrıları test sırasında engellendi; bu test reklam doluluğu/onayını doğrulamaz.
