@@ -1,5 +1,4 @@
 "use client";
-import { useAdConsent } from "@/components/CookiePreferences";
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import type { AdPlacement } from "@/lib/advertising";
@@ -23,7 +22,6 @@ function PaidAd({ client, slot, placement, name, pathname }: { client: string; s
 }
 export default function AdUnit({ placement = "content", client = "", slot = "", name }: { placement?: AdPlacement; client?: string; slot?: string; variant?: number; name?: string }) {
  const pathname = usePathname();
- const consent = useAdConsent();
- if (!consent || !client || !slot || /^\/(yonetim|odeme|giris|kayit|hesap-sil|parolami-unuttum|parola-sifirla|eposta-dogrula)(\/|$)/.test(pathname)) return null;
+ if (!client || !slot || /^\/(yonetim|odeme|giris|kayit|hesap-sil|parolami-unuttum|parola-sifirla|eposta-dogrula)(\/|$)/.test(pathname)) return null;
  return <PaidAd key={pathname + ":" + (name || placement) + ":" + slot} client={client} slot={slot} placement={placement} name={name || placement} pathname={pathname}/>;
 }

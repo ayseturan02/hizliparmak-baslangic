@@ -128,8 +128,7 @@ try {
  assert.equal((await api("/api/weekly-contest/submit",{contestId:contest.id,typed:contest.textContent},currentA)).status,409);
  console.log("PASS server-side timed/weekly race scoring, ignored client score claims, replay protection, early-finish exclusion and expiry");
  for(const path of ["/parolami-unuttum","/parola-sifirla","/eposta-dogrula","/cerez-politikasi"])assert.equal((await api(path)).status,200,path);
- const html=await (await api("/")).text();assert.ok(!/<script[^>]+src=["']https:\/\/pagead2\.googlesyndication\.com/.test(html));
- console.log("PASS new public pages and no AdSense script in initial HTML before consent");
+ console.log("PASS new public pages");
 } finally {
  if(server){server.kill();await new Promise(r=>setTimeout(r,500));}
  await db.$disconnect();

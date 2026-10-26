@@ -15,11 +15,11 @@ Son kontrol: 26 Ekim 2026. Canlı adres: https://hizliparmak-baslangic.vercel.ap
 | 7 | Canlı testler | Tekrar geçti. Kayıt, giriş, F klavye, ders, çıkış, tekrar giriş, tercihler ve ilerleme, parola ile hesap silme sınandı. Test hesabı temizlendi. |
 | 8 | E-posta işlemleri | Kod canlıda hazır: süreli tek kullanımlık doğrulama/sıfırlama bağlantıları, özetlenmiş tokenlar, istek sınırları ve oturum iptali. Gerçek gönderim henüz KAPALI. Gönderim hesabı, doğrulanmış gönderici ve Production RESEND_API_KEY / EMAIL_FROM gerekiyor. Gerçek teslimat testi yapılmadı. |
 | 9 | Hesap ayarları | Tercihler ve ödeme kaydı olmayan hesaplarda parolayla silme çalışıyor. Engellenen kullanıcıları yönetme eklendi. Ödeme/abonelik geçmişi olan hesaplar için saklama ve silme süreci hâlâ kararlaştırılmalı. |
-| 10 | Hukuki bilgiler ve çerezler | Çerez tercihleri, reklamı izin öncesi engelleme ve izni geri alma canlıda tamamlandı; masaüstü/mobil tarayıcı testi geçti. Gerçek işletme/veri sorumlusu, destek adresi, saklama süreleri, hukuki dayanak ve aktarım bilgileri eksik; gizlilik/kullanım metinleri nihai değil. İletişim bilgileri ortam değişkenlerinden yayımlanabilir. |
+| 10 | Hukuki bilgiler ve çerezler | Reklam kodu çerez tercihinden bağımsız yüklenir; önceki izin koşulu kaldırıldı. Çerez ekranı, reklamı kapatma seçeneği sunmayan doğru bir bilgilendirme ekranı olarak güncellendi. Gerçek işletme/veri sorumlusu, destek adresi, saklama süreleri, hukuki dayanak ve aktarım bilgileri eksik; gizlilik/kullanım metinleri nihai değil. İletişim bilgileri ortam değişkenlerinden yayımlanabilir. |
 | 11 | Topluluk yönetimi | Şikâyet, yönetici incelemesi, içerik kaldırma, topluluk erişimini askıya alma/kaldırma ve iki yönlü kullanıcı engelleme canlıda hazır. Yönetici yapılacak gerçek hesap henüz belirtilmedi; bu atama bekliyor. |
 | 12 | Ödeme | Kapalı kalıyor. Gerçek sağlayıcı anahtarları, işletme/iadeler ve canlı ödeme testleri olmadan satış açılmadı. |
 | 13 | Yarış doğrulaması | Tamamlandı: sunucu başlangıç zamanı, sunucuda metin/süre/skor hesabı ve tekrar gönderim koruması. Erken bitirilen 3/5 dakikalık çalışmalar sıralamaya girmez; gecikmiş gönderim reddedilir. Bu önlemler otomatik yazan botlara karşı kesin hilesizlik garantisi değildir. |
-| 14 | Reklam | ads.txt ve kod mevcut. Reklamlar izin olmadan yüklenmiyor. Google hesap onayı, gerçek reklam gösterimi ve gerekli sertifikalı CMP kurulumu doğrulanmadı. |
+| 14 | Reklam | ads.txt ve kod mevcut. Reklam kodu tercih beklemeden yükleniyor. Google hesap onayı, gerçek reklam gösterimi ve gerekli sertifikalı CMP kurulumu doğrulanmadı. |
 | 15 | Kaynak, yedek, izleme | Kod GitHub'a gönderildi. GitHub Actions günlük şifreli yedek + her seferinde PostgreSQL'e geri yükleme/satır karşılaştırması ve yarım saatlik sağlık kontrolü kuruldu. Sırlar güvenle kaydedildi. İlk sağlık ve bulut yedek/geri yükleme işleri başarıyla tamamlandı. Güncelleme öncesi/sonrası yerel geri yükleme testleri başarılı. Hata e-postası kodu hazır; gönderim hizmeti, bildirim adresi ve gerçek bildirim teslimatı eksik. |
 
 ## Yayımlanan sürüm
@@ -35,7 +35,7 @@ Son kod sürümü: 8e5297d (`fix: use Web Crypto in email instrumentation`). Öz
 
 ## Tamamlanan doğrulamalar
 
-Üretim derlemesi, ortam/ödeme korumaları, 100 ders müfredatı, üç saat diliminde İstanbul sınav takvimi, ayrı şemada eski verilerin üstüne migration ve yeni akışların gerçek HTTP testleri geçti. Canlı hesap akışı ve Chrome ile çerez reddetme/kabul/geri alma, mobil taşma kontrolü geçti.
+Üretim derlemesi, ortam/ödeme korumaları, 100 ders müfredatı, üç saat diliminde İstanbul sınav takvimi, ayrı şemada eski verilerin üstüne migration ve yeni akışların gerçek HTTP testleri geçti. Canlı hesap akışı ve mobil taşma kontrolü geçti. Önceki çerez izin testleri önceki sürüme aittir; reklamlar artık çerez tercihiyle kapatılmıyor.
 
 Son yerel doğrulanmış şifreli yedek: `.vercel/backups/2026-10-26T09-17-53-888Z.hpbackup`.
 
@@ -65,3 +65,9 @@ Kurulum ayrıntıları, komutlar ve sınırlar: [EMAIL_VE_IZLEME_KURULUMU.md](EM
 - `npm run db:backup -- --source-env .vercel/.env.production.local --key-file .vercel/backup.key --verify-local`: şifreli canlı yedek ve ayrı yerel şemada geri yükleme doğrulaması.
 
 `.env`, `.vercel`, anahtarlar ve yedekler Git/Vercel paketinden hariçtir. Yerel ilk-kurulum seed'i mevcut kullanıcı verileri olan veritabanına gelişigüzel uygulanmamalıdır.
+
+## Reklam davranışı güncellemesi
+
+Google reklam kodunun yüklenmesini önceki “Yalnızca gerekli” tercihiyle durduran koşul kaldırıldı. Bilgilendirmeyi kapatmak reklam izni olarak yorumlanmaz. Yönetim, ödeme, giriş/kayıt ve parola işlemleri sayfalarının reklam hariç tutmaları ile reklamsız aktif abonelik davranışı korunur. Manuel sağ/sol reklam birimi kimliği canlı ortamda hâlâ eksiktir; Auto ads yerleşim ve reklam gösterimini Google belirler. Google hesap onayı ve bölgeye göre izin yönetimi gereksinimleri hâlâ doğrulanmalıdır.
+
+Tarayıcı doğrulaması: eski ads:false kaydı varken reklam betiği yükleniyor; eski tercih temizleniyor; bilgilendirmeyi kapatmak reklamları durdurmuyor. Giriş sayfasında reklam betiği yüklenmiyor.

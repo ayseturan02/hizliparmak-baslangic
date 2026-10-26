@@ -47,9 +47,9 @@ Bildirim davranışı: https://docs.github.com/en/actions/concepts/workflows-and
 
 ## Reklam ve çerezler
 
-Reddetme, kabul etme ve izni geri alma canlı Chrome tarayıcısında sınandı. Google AdSense betiği ve reklam birimleri izin verilene kadar yüklenmez. Tercih bir yıl saklanır; izni geri almak sayfayı yeniden yükleyerek önceden yüklenmiş reklam betiğini kaldırır. Başka sekmedeki tercih değişikliği de uygulanır.
+Reklam kodu çerez tercihinden bağımsız otomatik yüklenir. Eski “Yalnızca gerekli” tercihi artık reklamları durdurmaz; eski kayıt kullanılmaz. Çerez ekranı yalnızca bilgi verir, kapatma düğmesi reklam izni değildir. Çerez sayfası bu davranışı açıklar.
 
-Bu ekranın Google'ın belirli bölgelerde isteyebileceği sertifikalı CMP şartını karşıladığı doğrulanmadı. AdSense hesabındaki güncel onay, gerçek reklam gösterimi ve Google tarafındaki izin yönetimi gereksinimleri ayrıca kontrol edilmelidir. `ads.txt` tek başına reklam onayı değildir.
+Manuel sağ/sol birim kimliği canlı ortamda henüz yoktur; Auto ads reklamları ve yerleşimleri Google tarafından belirlenir. AdSense hesabındaki güncel onay, gerçek reklam gösterimi ve Google tarafındaki bölgesel izin yönetimi gereksinimleri ayrıca kontrol edilmelidir. Bilgilendirme ekranı sertifikalı CMP değildir. `ads.txt` tek başına reklam onayı değildir.
 
 ## Son doğrulamalar
 
@@ -58,7 +58,7 @@ Bu ekranın Google'ın belirli bölgelerde isteyebileceği sertifikalı CMP şar
 - `npm run check:new-flows`: eski canlı yedekten ayrı yerel şema, eski şema üstüne yeni migration'lar, mevcut satırların korunması, e-posta tokenları, oturum iptali, moderasyon ve yarışlar başarılı.
 - Müfredat ve İstanbul sınav takvimi kontrolleri başarılı.
 - Canlı kayıt, giriş, F klavye dersi, tercih/ilerleme korunması, çıkış, tekrar giriş ve hesap silme başarılı; test hesabı temizlendi.
-- Canlı masaüstü ve mobil tarayıcı çerez kontrolleri başarılı; gerçek reklam ağı çağrıları testte engellendi.
+- Önceki izin açma/kapama testleri önceki sürüme aittir; güncel sürümde reklam kodu çerez tercihinden bağımsızdır.
 - Canlı şemanın güncelleme öncesi ve sonrası şifreli yedeği, ayrı yerel şemaya geri yüklenip satır karşılaştırmasıyla doğrulandı.
 
 İlk bulut yedek/geri yükleme işi: https://github.com/ayseturan02/hizliparmak-baslangic/actions/runs/40299391007 (success).
