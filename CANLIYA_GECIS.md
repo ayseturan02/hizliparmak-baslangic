@@ -24,9 +24,9 @@ Son kontrol: 26 Ekim 2026. Canlı adres: https://hizliparmak-baslangic.vercel.ap
 
 ## Yayımlanan sürüm
 
-Vercel production deployment: dpl_9AkwkGDUyS9fXuKprc6CrbsHkR9W (READY).
+Vercel production deployment: dpl_BPf9185YrCzg6rVDRvnGWXWH6tZw (READY).
 
-Kaynak kodu: 3ffb236 (`feat: add account recovery, moderation, consent and production safeguards`).
+Son kod sürümü: 8e5297d (`fix: use Web Crypto in email instrumentation`). Özelliklerin kaynak kaydı: 3ffb236. Yerel geliştirme sunucusu http://localhost:3000 üzerinde yeniden başlatıldı; instrumentation derlemesi ve PostgreSQL/Redis sağlık kontrolü başarılı.
 
 ## Bulutta doğrulanan otomatik işler
 
