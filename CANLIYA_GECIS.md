@@ -2,76 +2,66 @@
 
 Son kontrol: 26 Ekim 2026. Canlı adres: https://hizliparmak-baslangic.vercel.app/
 
-## 15 maddenin güncel durumu
+.com satın alımı kullanıcı isteğiyle kapsam dışındadır. Yerel test verileri canlıya taşınmadı.
 
-| No | Madde | Durum ve kalan iş |
+| No | Madde | Güncel durum / kalan iş |
 |---|---|---|
-| 1 | Bulut PostgreSQL | Tamamlandı. Ücretsiz Neon kaynağı hizliparmak-db, doğru Vercel projesine Production için bağlandı. Bağlantı sorgusu başarılı. |
-| 2 | Tablolar ve 100 ders | Tamamlandı. Dört migration uygulandı; ChatMessage ve User.examScore dahil canlı şema Prisma ile eşleşti. 100 dersin içerikleri birbirinden farklı. Kullanıcının isteğiyle yerel test hesapları/verileri taşınmadı. |
-| 3 | Oturum güvenliği | Tamamlandı. Production AUTH_SECRET var; yerel .env dosyaları dağıtımdan çıkarıldı. Canlı kayıt/girişte HttpOnly, Secure, SameSite=Lax çerezi doğrulandı. |
-| 4 | Redis erişimi | Tamamlandı. Production URL ve token mevcut; canlı kayıt ve giriş Redis kullanan sınır kontrollerinden geçerek çalıştı. |
-| 5 | .com alan adı | Bekliyor. Henüz alınmadı. İsim seçilip satın alındıktan sonra Vercel Domains, DNS, www yönlendirmesi ve HTTPS doğrulanacak. |
-| 6 | Canlı site adresi | Mevcut Vercel adresi için tamamlandı. NEXT_PUBLIC_APP_URL artık canlı HTTPS adresi. .com bağlanınca tekrar değiştirilecek ve yeniden dağıtım yapılacak. |
-| 7 | Canlı kullanıcı akışı | Tamamlandı. Kayıt, giriş, F klavye tercihi, ders tamamlama, çıkış ve tekrar giriş sonrası kayıtların korunması gerçek yayında test edildi. Geçici test hesabı temizlendi. |
-| 8 | Şifre sıfırlama ve e-posta doğrulama | Eksik. Kullanıcının henüz gönderim hizmeti yok. Önce hizmet ve doğrulanmış gönderici kurulacak; süreli tek kullanımlık bağlantılar ve e-posta doğrulama akışları geliştirilecek. |
-| 9 | Hesap tercihleri ve silme | Klavye ve gizlilik tercihleri veritabanına kaydoluyor. Gizli profil 404 döndürüyor; haftalık sıralama görünürlük tercihine uyuyor. Parola ve açık onay ile ödeme kaydı olmayan hesaplar silinebiliyor. Ödeme/abonelik geçmişi olan hesapların silinmesi, kayıt saklama ve destek süreci belirlenene kadar ayrıca inceleme gerektiriyor. |
-| 10 | Hukuki metinler, iletişim ve çerezler | Eksik. Sayfalar hâlâ taslak. Gerçek veri sorumlusu/işletme ve destek bilgileri, gerçek veri işleme faaliyetlerine uygun metinler, reklam/çerez tercihleri tamamlanacak. Bilinmeyen işletme bilgisi uydurulmadı. |
-| 11 | Topluluk yönetimi | Eksik. Şikâyet, moderasyonla içerik kaldırma ve kullanıcı engelleme araçları geliştirilecek; yönetici hesabı belirlenecek. |
-| 12 | Premium ödeme | Satış güvenli biçimde kapalı tutuluyor. Butonlar Yakında gösteriyor, fatura formu açılmıyor, başlatma API'si 503 döndürüyor. Gerçek ödeme anahtarları, işletme/iadeler ve sağlayıcı testleri tamamlanmadan açılmayacak. |
-| 13 | Yarış doğrulaması | Eksik. Bazı yarışlarda süre ve karakter sayısı istemciden geliyor. Sonuçlar güvenilir/resmî rekabet olarak sunulmadan önce sunucuda başlatılan deneme, süre ve metin doğrulaması, tekrar gönderim koruması tamamlanacak. Genel doğrulanmış sıralama zaten verified filtresi kullanıyor. |
-| 14 | AdSense | Yayındaki ads.txt ve yayıncı kimliği kontrol edildi. Hesaptaki güncel inceleme durumu bu oturumda görülemedi; son kullanıcı bilgisi Hazırlanıyor. Google onayı ve ileride .com site kaydı gerekiyor. Gerçek reklam gösterimi veya gelir doğrulanmadı. |
-| 15 | Kaynak, yedek ve izleme | Kaynak kodu ve bu kontrol raporu Git sürümüne alındı. İlk şifreli bulut veri yedeği alındı, ayrı yerel şemaya geri yüklenip bütün kayıtlar karşılaştırıldı. Vercel build/runtime günlükleri mevcut. Otomatik dış yedekleme, bildirimli hata takibi ve düzenli geri yükleme tatbikatı henüz kurulmadı. |
+| 1 | Bulut PostgreSQL | Tamam. Mevcut Neon ve Vercel bağlantısı korunuyor. |
+| 2 | Tablolar ve dersler | Tamam. 100 farklı ders korunuyor; toplam sekiz migration canlı ve yerelde uygulandı. Yeni tablolar eklenirken mevcut veriler korundu. |
+| 3 | Oturum güvenliği | Tamam. Production anahtarı ve güvenli çerezler korunuyor. Parola sıfırlanınca eski oturumların tamamı geçersiz oluyor. |
+| 4 | Redis | Tamam. Kayıt/giriş korumaları çalışıyor. E-posta ve yarış başlangıcı istek sınırları eklendi. |
+| 5 | .com | Kapsam dışı; henüz satın alınmadı. |
+| 6 | Site adresi | Mevcut Vercel adresi etkin; .com bağlanırsa değiştirilecek. |
+| 7 | Canlı testler | Tekrar geçti. Kayıt, giriş, F klavye, ders, çıkış, tekrar giriş, tercihler ve ilerleme, parola ile hesap silme sınandı. Test hesabı temizlendi. |
+| 8 | E-posta işlemleri | Kod canlıda hazır: süreli tek kullanımlık doğrulama/sıfırlama bağlantıları, özetlenmiş tokenlar, istek sınırları ve oturum iptali. Gerçek gönderim henüz KAPALI. Gönderim hesabı, doğrulanmış gönderici ve Production RESEND_API_KEY / EMAIL_FROM gerekiyor. Gerçek teslimat testi yapılmadı. |
+| 9 | Hesap ayarları | Tercihler ve ödeme kaydı olmayan hesaplarda parolayla silme çalışıyor. Engellenen kullanıcıları yönetme eklendi. Ödeme/abonelik geçmişi olan hesaplar için saklama ve silme süreci hâlâ kararlaştırılmalı. |
+| 10 | Hukuki bilgiler ve çerezler | Çerez tercihleri, reklamı izin öncesi engelleme ve izni geri alma canlıda tamamlandı; masaüstü/mobil tarayıcı testi geçti. Gerçek işletme/veri sorumlusu, destek adresi, saklama süreleri, hukuki dayanak ve aktarım bilgileri eksik; gizlilik/kullanım metinleri nihai değil. İletişim bilgileri ortam değişkenlerinden yayımlanabilir. |
+| 11 | Topluluk yönetimi | Şikâyet, yönetici incelemesi, içerik kaldırma, topluluk erişimini askıya alma/kaldırma ve iki yönlü kullanıcı engelleme canlıda hazır. Yönetici yapılacak gerçek hesap henüz belirtilmedi; bu atama bekliyor. |
+| 12 | Ödeme | Kapalı kalıyor. Gerçek sağlayıcı anahtarları, işletme/iadeler ve canlı ödeme testleri olmadan satış açılmadı. |
+| 13 | Yarış doğrulaması | Tamamlandı: sunucu başlangıç zamanı, sunucuda metin/süre/skor hesabı ve tekrar gönderim koruması. Erken bitirilen 3/5 dakikalık çalışmalar sıralamaya girmez; gecikmiş gönderim reddedilir. Bu önlemler otomatik yazan botlara karşı kesin hilesizlik garantisi değildir. |
+| 14 | Reklam | ads.txt ve kod mevcut. Reklamlar izin olmadan yüklenmiyor. Google hesap onayı, gerçek reklam gösterimi ve gerekli sertifikalı CMP kurulumu doğrulanmadı. |
+| 15 | Kaynak, yedek, izleme | Kod GitHub'a gönderildi. GitHub Actions günlük şifreli yedek + her seferinde PostgreSQL'e geri yükleme/satır karşılaştırması ve yarım saatlik sağlık kontrolü kuruldu. Sırlar güvenle kaydedildi. İlk sağlık ve bulut yedek/geri yükleme işleri başarıyla tamamlandı. Güncelleme öncesi/sonrası yerel geri yükleme testleri başarılı. Hata e-postası kodu hazır; gönderim hizmeti, bildirim adresi ve gerçek bildirim teslimatı eksik. |
 
-## Doğrulamalar
+## Yayımlanan sürüm
 
-- Vercel Production derlemesi ve zorunlu ortam ayarı kontrolü başarılı.
-- Bulut şeması ile Prisma modelleri bire bir eşleşti.
-- Türkçe Q ve F için 100 farklı, kademeli ders müfredatı kontrolü başarılı.
-- Hesap akışı yerelde ve gerçek canlı adreste başarılı.
-- Hesap güncellemede yetki/kimlik alanları kabul edilmiyor; başka kaynaktan gelen istek reddediliyor.
-- Hesap silmede yanlış parola ve yanlış onay reddediliyor; ödeme geçmişi korunuyor.
-- 13 genel sayfa/ads.txt HTTP 200; kapalı ödeme API'si beklenen 503 sonucunu veriyor.
-- Haftalık sınav takvimi üç sunucu saat diliminde aynı İstanbul hafta sınırını üretiyor.
-- Şifreli yedekteki bütün tablolar geçici yerel şemaya geri yüklendi; kayıtlar bire bir eşleşti.
+Vercel production deployment: dpl_9AkwkGDUyS9fXuKprc6CrbsHkR9W (READY).
 
-## Günlük kullanım ve dağıtım
+Kaynak kodu: 3ffb236 (`feat: add account recovery, moderation, consent and production safeguards`).
 
-Yerel geliştirme: npm run dev
+## Bulutta doğrulanan otomatik işler
 
-Yerel ortam kontrolü: npm run check:env
+- [Şifreli yedek, PostgreSQL geri yükleme ve satır karşılaştırması](https://github.com/ayseturan02/hizliparmak-baslangic/actions/runs/40299391007): success; şifreli dosya artifact olarak yüklendi.
+- [Canlı sağlık kontrolü](https://github.com/ayseturan02/hizliparmak-baslangic/actions/runs/40299395690): success.
 
-Ortam ve ödeme korumaları: npm run check:launch
+## Tamamlanan doğrulamalar
 
-Migration uygulama: npm run db:deploy (hedef DATABASE_URL ortamı önceden doğrulanmalı).
+Üretim derlemesi, ortam/ödeme korumaları, 100 ders müfredatı, üç saat diliminde İstanbul sınav takvimi, ayrı şemada eski verilerin üstüne migration ve yeni akışların gerçek HTTP testleri geçti. Canlı hesap akışı ve Chrome ile çerez reddetme/kabul/geri alma, mobil taşma kontrolü geçti.
 
-Ders güncelleme: npm run db:update-lessons. Bu komut mevcut ders kimliklerini, ilerlemeleri, yayın ve erişim tercihlerini korur. Mevcut kullanıcı verisi olan veritabanına ilk kurulum seed'ini gelişigüzel uygulamayın.
+Son yerel doğrulanmış şifreli yedek: `.vercel/backups/2026-10-26T09-17-53-888Z.hpbackup`.
 
-Vercel build komutu vercel.json ile npm run build:production olarak tanımlı. Eksik anahtarlar ve localhost Production adresi derlemeden önce engellenir. Ortam değerleri kaynak koda yazılmaz.
+Yedek anahtarı `.vercel/backup.key` içindedir; kaynak koduna veya sohbet mesajına konmamalıdır. Bağımsız, erişimi kısıtlı kopyasını işletmeci de korumalıdır.
 
-.env ve .vercel klasörü hem Git'ten hem dağıtımdan hariçtir. .env.example yalnızca şablondur. Production sensitive değerler env pull çıktısında [SENSITIVE] görünebilir; bu yer tutucular gerçek anahtar değildir ve canlı ayarlar üzerine yazılmamalıdır.
+## Senden gerekenler
 
-Ödeme ancak PAYMENTS_ENABLED=true ve PAYMENT_PROVIDER=iyzico ile, gerekli sağlayıcı anahtarları mevcutsa etkinleşir. Şimdilik kapalı bırakılmalı. Ödeme sonuç callback'i mevcut işlemlerin doğrulanabilmesi için korunmuştur.
+1. Gönderim hizmeti hesabı ve doğrulanmış gönderici adresi; gerçek destek ve hata bildirimi adresi. Anahtarlar sohbete değil Vercel'in Production ortam ayarlarına girilmeli.
+2. Gerçek işletme/veri sorumlusu adı, adresi ve hukuki metinler için veri saklama/başvuru süreçleri.
+3. Yönetici yapılacak mevcut hesabın e-postası. Rastgele bir hesaba yetki verilmedi.
+4. AdSense hesabındaki güncel inceleme/onay durumu ve Google izin yönetimi gereksinimleri.
+5. Ödeme açılacaksa sağlayıcı hesabı, işletme/iade koşulları ve gerçek testler. Ödeme geçmişi olan hesaplarda silme/saklama yöntemi.
 
-## Yedek
+Otomatik yedekleme: her gün 04:23 İstanbul; şifreli bulut artifact saklama süresi 30 gün. Sağlık kontrolü: her saatin 11. ve 41. dakikası. GitHub bildirim tercihi ve gerçek e-posta teslimatı ayrıca doğrulanmalıdır. Herkese açık depoda 60 gün etkinlik olmaması zamanlanmış işleri durdurabilir.
 
-İlk doğrulanmış yedek: .vercel/backups/2026-10-26T05-28-58-622Z.hpbackup
+Kurulum ayrıntıları, komutlar ve sınırlar: [EMAIL_VE_IZLEME_KURULUMU.md](EMAIL_VE_IZLEME_KURULUMU.md).
 
-Anahtar: .vercel/backup.key. Anahtarı kaynak depoya veya sohbet mesajına koymayın. Yedeğin kullanılabilmesi için anahtarın da korunması gerekir; ayrı, erişimi kısıtlı bir yerde kopyası tutulmalı.
+## Kullanım komutları
 
-Yedek komutu:
+- `npm run dev`: yerel geliştirme.
+- `npm run build`: üretim derlemesi.
+- `npm run check:launch`: ortam ve ödeme korumaları.
+- `npm run check:new-flows`: ayrı yerel şemada migration ve yeni güvenlik akışları; yerel PostgreSQL ile doğrulanmış `.vercel` yedeği/anahtarı gerektirir.
+- `npm run check:account`: varsayılan localhost üzerinde geçici hesapla hesap akışı.
+- `npm run db:deploy`: yalnızca hedef DATABASE_URL doğrulandıktan sonra migration uygulama.
+- `npm run db:update-lessons`: mevcut ders kimliklerini/ilerlemeleri koruyarak müfredat güncelleme.
+- `npm run db:backup -- --source-env .vercel/.env.production.local --key-file .vercel/backup.key --verify-local`: şifreli canlı yedek ve ayrı yerel şemada geri yükleme doğrulaması.
 
-    npm run db:backup -- --source-env .vercel/.env.production.local --key-file .vercel/backup.key --verify-local
-
-Komut, tek tutarlı işlemde tüm Prisma tablolarının veri anlık görüntüsünü alır, AES-256-GCM ile şifreler ve dosyayı okuyarak doğrular. --verify-local seçeneği şifreli dosyayı çözüp verileri sadece localhost üzerinde benzersiz geçici bir şemaya geri yükler. Mevcut yerel uygulama şemasına dokunmaz. Veri modeli değişince yedek bağımlılık sırası da güncellenmelidir. Bu uygulama veri yedeğidir; PostgreSQL rol/izin veya sağlayıcı ayarlarının tam sunucu yedeği değildir. Düzenli uzak yedek ve otomatik zamanlama henüz yoktur.
-
-## Sonraki çalışma sırası
-
-1. E-posta gönderim hizmeti ve doğrulanmış gönderici kur; parola sıfırlama/e-posta doğrulama akışlarını geliştir.
-2. Gerçek destek ve işletme bilgilerini belirle; iletişim, hukuki metinler ve çerez tercihlerini tamamla.
-3. Topluluk moderasyon araçlarını ve yönetici erişimini tamamla.
-4. Yarış skorlarını sunucuda doğrula.
-5. Seçilen .com adresini satın alıp DNS/HTTPS/yönlendirmeleri bağla; site adresini güncelle.
-6. AdSense'e yeni alan adını ekle ve Google incelemesini tamamla.
-7. Otomatik yedekleme ve hatalarda bildirim kurulumu yap; yayımdan sonra hesap akışlarını yeniden test et.
-
-Ödeme açılacaksa, sağlayıcı canlı testleri ve işletme süreçleri ayrıca tamamlanmalıdır.
+`.env`, `.vercel`, anahtarlar ve yedekler Git/Vercel paketinden hariçtir. Yerel ilk-kurulum seed'i mevcut kullanıcı verileri olan veritabanına gelişigüzel uygulanmamalıdır.
