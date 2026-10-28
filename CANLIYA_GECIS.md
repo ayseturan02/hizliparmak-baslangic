@@ -2,6 +2,22 @@
 
 Son kontrol: 26 Ekim 2026. Canlı adres: https://hizliparmak-baslangic.vercel.app/
 
+## Yeniden kontrol — 26 Ekim 2026
+
+Bu bölüm aşağıdaki önceki yayın kaydını tamamlar. Canlı ana sayfa ve `/api/health` yeniden HTTP 200 döndürdü; sağlık yanıtı `{"status":"ok"}`. Site tarayıcıda açıldı. Yeni kayıt/ilerleme akışı bu kontrolde tekrarlanmadı; aşağıdaki önceki test kaydı geçerlidir.
+
+Vercel Production ortamının güncel değişken adları kontrol edildi: `EMAIL_PROVIDER` var; `GMAIL_USER`, `GMAIL_APP_PASSWORD`, `RESEND_API_KEY`, `EMAIL_FROM`, `SUPPORT_EMAIL`, `ALERT_EMAIL`, `BUSINESS_NAME`, `BUSINESS_ADDRESS` yok. E-posta gönderimi ve hata bildirimi için gerçek kurulum hâlâ eksik. Yerel `.vercel/.env.production.local` eski/maskelemiş bir kopyadır; bu dosyadaki eksik ya da gizlenmiş değerler canlı veritabanı/oturum ayarlarının bozuk olduğunu göstermez.
+
+Yerelde Gmail SMTP adaptörü, bağlantı zaman aşımı/TLS ayarları, gönderici kontrolü, hassas hata ayrıntılarını gizleme ve ilgili doğrulama komutu mevcut. Bu değişiklikler Git çalışma ağacında henüz commit edilmemiş durumda bulundu; canlıya yayımlandıkları varsayılmamalıdır. Gmail kurulumu için [GMAIL_KURULUMU.md](GMAIL_KURULUMU.md) izlenmeli.
+
+Yeniden geçen kontroller: `check:launch`, `check:email`, 100 farklı Q/F ders müfredatı ve üç saat diliminde İstanbul sınav takvimi. `next build` ile üretim derlemesi ve TypeScript kontrolleri geçti. `npm run build` içindeki Prisma üretimi Windows'ta açık istemcinin DLL kilidine takıldı; Next.js derlemesi mevcut üretilmiş istemciyle doğrulandı. E-posta testi sahte taşıyıcı kullanır; gerçek e-posta göndermez ve teslimatı doğrulamaz.
+
+`check:new-flows` yeniden geçti: eski şifreli yedekten ayrı yerel şemaya geri yükleme/migration ve mevcut alanların korunması; doğrulama, süresi dolmuş/yeniden kullanılan tokenlar, kaynak kontrolü, parola sıfırlama ve eski oturumların reddi; şikâyet/engelleme/yönetici yetkisi/askıya alma; sunucuda yarış hesaplama ve tekrar/erken/gecikmiş gönderim korumaları. Test şeması temizlendi; canlı uygulama verisi değiştirilmedi. Yeni hazırlık kontrolünün eksik ayarlarla başarısız, tam örnek ayarlarla başarılı olduğu da doğrulandı.
+
+Yeni `npm run check:readiness` komutu, enjekte edilen Production ayarlarını sırları yazdırmadan denetler. Belirli bir dosya için `npm run check:readiness -- --env-file <dosya>` kullanılabilir; yerel `.env` dosyasına otomatik dönmez. Eksik kurulumda çıkış kodu 1'dir. Gerçek teslimat, yönetici erişimi, nihai hukuki metinler, reklam onayı/izin yönetimi ve son yedek geri yüklemesi ayrıca doğrulanmalıdır.
+
+Öncelik sırası: (1) Gmail uygulama şifresi/gönderici kurulumu ve gerçek teslimat testi; (2) destek/hata adresleri ve gerçek veri sorumlusu bilgileri; (3) belirtilen mevcut hesaba yönetici ataması; (4) nihai hukuki metinler ve reklam izin/onay kontrolü. Ödeme kapalı kalır. Bu bilgiler olmadan uygulama tamamen canlıya hazır olarak işaretlenemez.
+
 .com satın alımı kullanıcı isteğiyle kapsam dışındadır. Yerel test verileri canlıya taşınmadı.
 
 | No | Madde | Güncel durum / kalan iş |

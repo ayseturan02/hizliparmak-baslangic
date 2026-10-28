@@ -1,1 +1,26 @@
-import { redirect } from "next/navigation"; import PageShell from "@/components/PageShell"; import { getSessionUser } from "@/lib/auth"; export default async function DailyTasks(){const u=await getSessionUser();if(!u)redirect("/giris?next=/gunluk-gorevler");return <PageShell title="Günlük görevler" description="Küçük ve düzenli hedeflerle yazma alışkanlığı kazan."><div className="grid-3"><div className="card"><h3>5 dakika çalış</h3><p>Her gün kısa bir alıştırma yap.</p><span className="badge">Görev sistemi yakında</span></div><div className="card"><h3>Doğruluğunu koru</h3><p>%95 doğruluk hedefini dene.</p><span className="badge">Görev sistemi yakında</span></div><div className="card"><h3>Bir ders tamamla</h3><p>Öğrenme yolculuğunda ilerle.</p><span className="badge">Görev sistemi yakında</span></div></div></PageShell>}
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import PageShell from "@/components/PageShell";
+import { getSessionUser } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+import { istanbulDay, summarizeDailyGoals } from "@/lib/daily-goals";
+
+export default async function DailyTasks() {
+  const user = await getSessionUser();
+  if (!user) redirect("/giris?next=/gunluk-gorevler");
+  const { start, end } = istanbulDay();
+  const [results, completedLessons] = await Promise.all([
+    prisma.typingResult.findMany({ where: { userId: user.id, createdAt: { gte: start, lt: end }, OR: [{ lessonId: { not: null } }, { verified: true }] }, select: { durationSeconds: true, accuracy: true, lessonId: true } }),
+    prisma.lessonProgress.count({ where: { userId: user.id, completed: true, completedAt: { gte: start, lt: end } } }),
+  ]);
+  const goals = summarizeDailyGoals(results, completedLessons);
+  return <PageShell title="Günlük görevler" description="Hedefler her gün İstanbul saatine göre 00.00'da yenilenir. Kaydedilen çalışmaların otomatik sayılır.">
+    <p>{goals.filter(goal => goal.value >= goal.target).length}/3 görev tamamlandı.</p>
+    <div className="grid-3">{goals.map(goal => <div className="card" key={goal.title}>
+      <h2>{goal.title}</h2><p>{goal.description}</p>
+      <progress value={goal.value} max={goal.target} aria-label={goal.title} style={{ width: "100%" }}/>
+      <p>{goal.value}/{goal.target} {goal.unit}</p>
+      {goal.value >= goal.target ? <span className="badge">Tamamlandı ✓</span> : <Link className="button button-ghost" href={goal.href}>Çalışmaya başla</Link>}
+    </div>)}</div>
+  </PageShell>;
+}

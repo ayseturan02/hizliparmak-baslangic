@@ -4,7 +4,7 @@
 
 ## E-posta gönderimini etkinleştirme
 
-Resend API adaptörü hazırdır. Yeni bir hizmet hesabı açılmadı, ücretli hizmet satın alınmadı. Farklı sağlayıcı seçilirse `lib/email.ts` adaptörü değiştirilmelidir.
+Resend API ve Gmail SMTP adaptörleri hazırdır. Gmail seçeneği için [GMAIL_KURULUMU.md](GMAIL_KURULUMU.md) izlenmelidir; `EMAIL_PROVIDER=gmail`, `GMAIL_USER` ve `GMAIL_APP_PASSWORD` gerekir. Aşağıdaki Resend adımları alternatif sağlayıcı içindir; Resend kullanılacaksa `EMAIL_PROVIDER=resend` ayarlanmalıdır. Yeni bir hizmet hesabı açılmadı, ücretli hizmet satın alınmadı.
 
 1. Gönderim hesabını ve hesabın izin verdiği gerçek gönderici adresini doğrula. Resend kullanılırsa kontrol edilen bir alan adının DNS doğrulaması gerekir; Vercel alt alanı kullanıcının DNS yönetiminde değildir. .com zorunlu değildir, ancak gönderim yetkisi olan bir adres/hizmet gerekir. Resend test göndericisi tüm kullanıcılara gönderim için yeterli değildir.
 2. Vercel projesinin Production ortamına `RESEND_API_KEY` ve `EMAIL_FROM` ekle. Örnek biçim: `HızlıParmak <destek@kontrol-edilen-alan-adi>`; bu bir örnektir, gerçek adres değildir. Anahtarları sohbet mesajına veya kaynak koduna koyma.

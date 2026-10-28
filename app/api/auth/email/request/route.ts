@@ -1,3 +1,5 @@
+export const runtime = "nodejs";
+export const maxDuration = 60;
 import { NextResponse } from "next/server";
 import { createHmac } from "node:crypto";
 import { Redis } from "@upstash/redis";
